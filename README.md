@@ -17,18 +17,21 @@ Full cycle of the HTTP request to `*.o.usedevbook.com` URL:
 
 2. Clone this repository: `git clone https://github.com/wmnnd/nginx-certbot.git .`
 
-3. Install modules
-```
-npm i
-```
-
-4. Run the init script:
+3. Run the init script:
 
 ```
-npm run init-letsencrypt
+./init-letsencrypt.sh
 ```
 
-5. Run the server:
+4. Run the server:
 ```
-npm run start
+./start.sh
 ```        
+
+# Deployment
+
+There isn't a good automated way to deploy this. The current way of deployment is fully manual:
+1. SSH to GCE instance
+2. Clone repo
+3. Run `sudo ./init-letsencrypt.sh` (don't generate new SSL certs if not needed)
+4. Start proxy in the background `sudo ./start.sh &`

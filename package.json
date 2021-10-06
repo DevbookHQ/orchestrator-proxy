@@ -1,0 +1,12 @@
+{
+  "name": "orchestrator-proxy",
+  "private": true,
+  "dependencies": {
+    "@google-cloud/secret-manager": "^3.10.1"
+  },
+  "scripts": {
+    "init-letsencrypt": "./init-letsencrypt.sh",
+    "start": "docker-compose up"
+  },
+  "type": "module"
+}

@@ -17,13 +17,18 @@ Full cycle of the HTTP request to `*.o.usedevbook.com` URL:
 
 2. Clone this repository: `git clone https://github.com/wmnnd/nginx-certbot.git .`
 
-3. Run the init script:
+3. Install modules
+```
+npm i
+```
+
+4. Run the init script:
 
 ```
 npm run init-letsencrypt
 ```
 
-4. Run the server:
+5. Run the server:
 ```
 npm run start
 ```        

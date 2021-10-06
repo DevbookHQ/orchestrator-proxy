@@ -1,9 +1,6 @@
-#!/bin/bash
+#! /bin/bash
 
-if ! [ -x "$(command -v docker)" ]; then
-  echo 'Error: docker is not installed.' >&2
-  exit 1
-fi
+BASEDIR=$(dirname "$0")
 
 # This "fake" docker-compose is needed if you're running in GCP's Container Optimized OS.
 # Based on - https://github.com/GoogleCloudPlatform/community/blob/master/tutorials/docker-compose-on-container-optimized-os.md
@@ -15,9 +12,24 @@ docker-compose() {
     docker/compose:1.29.2 "$@"
 }
 
+build_creds() {
+  docker build -f Dockerfile.creds -t creds .
+}
+
+run_creds() {
+  docker run \
+    --rm \
+    -v $BASEDIR/data:/app/data creds
+}
+
+if ! [ -x "$(command -v docker)" ]; then
+  echo 'Error: docker is not installed.' >&2
+  exit 1
+fi
+
 domains=(*.o.usedevbook.com)
 rsa_key_size=4096
-data_path="./data/certbot"
+data_path="./data/certbot/"
 email="vasek@usedevbook.com" # Adding a valid address is strongly recommended
 staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits. If you generate 5 certificates, you'll get blocked for 168 hours.
 
@@ -28,8 +40,9 @@ if [ -d "$data_path" ]; then
   fi
 fi
 
-echo "### Downloading secret credentials"
-node ./get-creds.js
+echo "### Getting Cloudflare credentials"
+build_creds
+run_creds
 echo
 
 if [ ! -e "$data_path/conf/options-ssl-nginx.conf" ] || [ ! -e "$data_path/conf/ssl-dhparams.pem" ]; then

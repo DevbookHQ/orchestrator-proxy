@@ -1,6 +1,8 @@
 #! /bin/bash
 
-BASEDIR=$(dirname "$0")
+set -euxo pipefail
+
+BASEDIR=$(readlink -f .)
 
 # This "fake" docker-compose is needed if you're running in GCP's Container Optimized OS.
 # Based on - https://github.com/GoogleCloudPlatform/community/blob/master/tutorials/docker-compose-on-container-optimized-os.md

@@ -1,15 +1,25 @@
 #!/bin/bash
 
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo 'Error: docker-compose is not installed.' >&2
+if ! [ -x "$(command -v docker)" ]; then
+  echo 'Error: docker is not installed.' >&2
   exit 1
 fi
 
-domains=(*.orch.usedevbook.com)
+# This "fake" docker-compose is needed if you're running in GCP's Container Optimized OS.
+# Based on - https://github.com/GoogleCloudPlatform/community/blob/master/tutorials/docker-compose-on-container-optimized-os.md
+docker-compose() {
+  docker run --rm \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v "$PWD:$PWD" \
+    -w="$PWD" \
+    docker/compose:1.29.2 "$@"
+}
+
+domains=(*.o.usedevbook.com)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="vasek@usedevbook.com" # Adding a valid address is strongly recommended
-staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
+staging=1 # Set to 1 if you're testing your setup to avoid hitting request limits. If you generate 5 certificates, you'll get blocked for 168 hours.
 
 if [ -d "$data_path" ]; then
   read -p "Existing data found for $domains. Continue and replace existing certificate? (y/N) " decision

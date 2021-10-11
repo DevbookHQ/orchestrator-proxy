@@ -29,7 +29,7 @@ if ! [ -x "$(command -v docker)" ]; then
   exit 1
 fi
 
-domains=(o.usedevbook.com *.o.usedevbook.com)
+domains=(*.o.usedevbook.com)
 rsa_key_size=4096
 data_path="./data/certbot/"
 email="vasek@usedevbook.com" # Adding a valid address is strongly recommended

@@ -1,18 +1,8 @@
 #! /bin/bash
 
-set -euxo pipefail
+set -eo pipefail
 
 BASEDIR=$(readlink -f .)
-
-# This "fake" docker-compose is needed if you're running in GCP's Container Optimized OS.
-# Based on - https://github.com/GoogleCloudPlatform/community/blob/master/tutorials/docker-compose-on-container-optimized-os.md
-docker-compose() {
-  docker run --rm \    
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -v "$PWD:$PWD" \
-    -w="$PWD" \
-    docker/compose:1.29.2 "$@"
-}
 
 build_creds() {
   docker build -f Dockerfile.creds -t creds .
@@ -26,6 +16,11 @@ run_creds() {
 
 if ! [ -x "$(command -v docker)" ]; then
   echo 'Error: docker is not installed.' >&2
+  exit 1
+fi
+
+if ! [ -x "$(command -v docker-compose)" ]; then
+  echo "Error: docker-compose is not installed." >&2
   exit 1
 fi
 

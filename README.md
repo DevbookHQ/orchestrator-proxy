@@ -26,7 +26,7 @@ Full cycle of the HTTP request to `*.o.usedevbook.com` URL:
 
 4. Run the server:
 ```
-./start.sh
+docker-compose up
 ```        
 
 # Deployment
@@ -35,4 +35,4 @@ There isn't a good automated way to deploy this. The current way of deployment i
 1. SSH to GCE instance
 2. Clone repo
 3. Run `sudo ./init-letsencrypt.sh` (don't generate new SSL certs if not needed)
-4. Start proxy in the background `sudo ./start.sh &`
+4. Start proxy in the background `sudo docker-compose up &`

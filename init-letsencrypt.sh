@@ -7,7 +7,7 @@ BASEDIR=$(readlink -f .)
 # This "fake" docker-compose is needed if you're running in GCP's Container Optimized OS.
 # Based on - https://github.com/GoogleCloudPlatform/community/blob/master/tutorials/docker-compose-on-container-optimized-os.md
 docker-compose() {
-  docker run --rm \
+  docker run --rm \    
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v "$PWD:$PWD" \
     -w="$PWD" \
@@ -29,7 +29,7 @@ if ! [ -x "$(command -v docker)" ]; then
   exit 1
 fi
 
-domains=(*.o.usedevbook.com)
+domains=(o.usedevbook.com *.o.usedevbook.com)
 rsa_key_size=4096
 data_path="./data/certbot/"
 email="vasek@usedevbook.com" # Adding a valid address is strongly recommended

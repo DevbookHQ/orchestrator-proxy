@@ -12,12 +12,16 @@ Full cycle of the HTTP request to `*.o.usedevbook.com` URL:
 2) Reverse Proxy GCE instance receives the request and proxies it as HTTP request to GCP Load Balancer
 3) GCP Load Balancer receives the request and proxies it as HTTP request to the actual GCE Orchestrator instance
 
+
+Together with the Orchestrator session URLs this proxy also handles requests for the Orchestrator itself, that is requests to the `o.usedevbook.com` URL.
+
 ## Installation
 1. [Install docker-compose](https://docs.docker.com/compose/install/#install-compose).
 
 2. Clone this repository: `git clone https://github.com/wmnnd/nginx-certbot.git .`
 
 3. Run the init script:
+#### **🚨 IMPORTANT 🚨**: Make sure to change the variable `staging` to `1` in the `init-letsencrypt.sh` if you aren't in the production environment
 
 ```
 ./init-letsencrypt.sh
